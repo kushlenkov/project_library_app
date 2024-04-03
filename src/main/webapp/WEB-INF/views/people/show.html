@@ -2,19 +2,34 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Show</title>
+    <title>Посетитель</title>
 </head>
 <body>
 
-<p th:text="${person.getName()} + ', ' + ${person.getAge()}">VALUE</p>
-<p th:text="${person.getEmail()}">VALUE</p>
-<p th:text="${person.getAddress()}">VALUE</p>
-<p th:text="${person.getId()}">VALUE</p>
+<p th:text="${person.getFullName()} + ', ' + ${person.getYearBirth()}">FullName + year</p>
+<span>ID: </span> <span th:text="${person.getPersonId()}">ID</span>
 
-<a th:href="@{/people/{id}/edit(id=${person.getId()})}">Edit</a>
+<div th:if="${books.isEmpty()}">
+    <p>Посетитель не взял ни одной книги</p>
+    <hr/>
+</div>
 
-<form th:method="DELETE" th:action="@{/people/{id}(id=${person.getId()})}">
-    <input type="submit" value="Delete"/>
+<div th:if="${!books.isEmpty()}">
+    <hr/> <!-- Это линия горизонтальная -->
+    <b>Книги:</b>
+    <br/> <!-- Это пробел -->
+    <table th:each="book : ${books}">
+        <tr th:text="${book.getTitle()} + ', ' + ${book.getAuthorName()} + ', ' + ${book.getRealiseYear()}">book</tr>
+    </table>
+    <hr/>
+</div>
+
+<form th:method="GET" th:action="@{/people/{id}/edit(id=${person.getPersonId()})}">
+    <input type="submit" value="Редактировать"/>
+</form>
+<br/>
+<form th:method="DELETE" th:action="@{/people/{id}(id=${person.getPersonId()})}">
+    <input type="submit" value="Удалить посетителя"/>
 </form>
 </body>
 </html>
