@@ -83,6 +83,7 @@ public class BookController {
 
     @PatchMapping("/{id}/assign")
     public String assign(@PathVariable("id") int id, @ModelAttribute("person") Person selectedPerson) {
+        // У selectedPerson назначено только поле id, остальные поля - null
         bookDAO.assign(id, selectedPerson);
         return "redirect:/books/" + id;
     }

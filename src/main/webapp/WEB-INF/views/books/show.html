@@ -18,7 +18,7 @@
 </div>
 
 <div th:if="${people}">
-    <span>Эта книга свободна. Кому назначить ее?</span>
+    <span>Эта книга свободна. Кому назначить ее?</span> <!-- тоже, что и p толькон не переносит строку -->
     <form th:method="PATCH" th:action="@{/books/{id}/assign(id=${book.getBookId()})}">
         <label for="person">Выберите человека</label>
         <select th:object="${person}" th:field="*{personId}" id="person">

@@ -24,14 +24,14 @@ public class PersonDAO {
         return jdbcTemplate.query("SELECT * FROM Person", new BeanPropertyRowMapper<>(Person.class));
     }
 
-    public Person show(int id) {
+    public Person getPersonByFullName(int id) {
         return jdbcTemplate.query("SELECT * FROM Person WHERE person_id=?",
                         new Object[]{id}, new BeanPropertyRowMapper<>(Person.class))
                 .stream().findAny().orElse(null);
     }
 
     // Это для валидатора
-    public Optional<Person> show(String fullName) {
+    public Optional<Person> getPersonByFullName(String fullName) {
         return jdbcTemplate.query("SELECT * FROM Person WHERE full_name=?",
                         new Object[]{fullName}, new BeanPropertyRowMapper<>(Person.class))
                 .stream().findAny();
