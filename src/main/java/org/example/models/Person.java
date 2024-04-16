@@ -1,20 +1,31 @@
 package org.example.models;
 
-import org.hibernate.validator.constraints.UniqueElements;
-
-import javax.validation.Valid;
+import javax.persistence.*;
 import javax.validation.constraints.*;
+import java.util.List;
 
+@Entity
+@Table(name = "Person")
 public class Person {
-    private int personId;
+    @Id
+    @Column(name = "person_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
 
     @NotEmpty(message = "Поле ФИО не может быть пустым")
+    @Size(min = 3, max = 50, message = "Значение поля ФИО должно быть между 3 и 30 знаками")
+    @Column(name = "full_name")
     private String fullName;
 
     @Min(value = 1900, message = "Год рождения не должен быть меньше 1900")
+    @Column(name = "year_birth")
     private int yearBirth;
 
+    @OneToMany(mappedBy = "owner")
+    private List<Book> books;
+
     public Person() {
+
     }
 
     public Person(String fullName, int yearBirth) {
@@ -22,12 +33,12 @@ public class Person {
         this.yearBirth = yearBirth;
     }
 
-    public int getPersonId() {
-        return personId;
+    public int getId() {
+        return id;
     }
 
-    public void setPersonId(int personId) {
-        this.personId = personId;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getFullName() {
@@ -44,5 +55,13 @@ public class Person {
 
     public void setYearBirth(int yearBirth) {
         this.yearBirth = yearBirth;
+    }
+
+    public List<Book> getBooks() {
+        return books;
+    }
+
+    public void setBooks(List<Book> books) {
+        this.books = books;
     }
 }

@@ -7,7 +7,7 @@
 <body>
 
 <p th:text="${person.getFullName()} + ', ' + ${person.getYearBirth()}">FullName + year</p>
-<span>ID: </span> <span th:text="${person.getPersonId()}">ID</span>
+<span>ID: </span> <span th:text="${person.getId()}">ID</span>
 
 <div th:if="${books.isEmpty()}">
     <p>Посетитель не взял ни одной книги</p>
@@ -24,11 +24,11 @@
     <hr/>
 </div>
 
-<form th:method="GET" th:action="@{/people/{id}/edit(id=${person.getPersonId()})}">
+<form th:method="GET" th:action="@{/people/{id}/edit(id=${person.getId()})}">
     <input type="submit" value="Редактировать"/>
 </form>
 <br/>
-<form th:method="DELETE" th:action="@{/people/{id}(id=${person.getPersonId()})}">
+<form th:method="DELETE" th:action="@{/people/{id}(id=${person.getId()})}">
     <input type="submit" value="Удалить посетителя"/>
 </form>
 </body>
