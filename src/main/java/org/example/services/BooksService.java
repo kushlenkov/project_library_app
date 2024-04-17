@@ -66,8 +66,8 @@ public class BooksService {
     public void delete(int id) {
         booksRepository.deleteById(id);
     }
-    // Returns null if book has no owner
 
+    // Returns null if book has no owner
     public Person getBookOwner(int id) {
         return booksRepository.findById(id).map(Book::getOwner).orElse(null);
     }

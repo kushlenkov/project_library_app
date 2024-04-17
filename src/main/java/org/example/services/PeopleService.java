@@ -65,6 +65,7 @@ public class PeopleService {
             // Проверка просроченности книг
             booksOwner.get().getBooks().forEach(book -> {
                 long diffInMillisecond  = Math.abs(book.getTakenAt().getTime() - new Date().getTime());
+                // 864000000 милисекунд = 10 суток
                 if (diffInMillisecond > 864_000_000L)
                     book.setExpired(true);
             });
