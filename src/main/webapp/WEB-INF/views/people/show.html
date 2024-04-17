@@ -19,7 +19,12 @@
     <b>Книги:</b>
     <br/> <!-- Это типо абзац -->
     <table th:each="book : ${books}">
-        <tr th:text="${book.getTitle()} + ', ' + ${book.getAuthorName()} + ', ' + ${book.getRealiseYear()}">book</tr>
+        <tr>
+            <td>
+                <span th:text="${book.getTitle()} + ', ' + ${book.getAuthorName()} + ', ' + ${book.getRealiseYear()}"
+                      th:style="${book.isExpired()} ? 'color: red' : 'color: black'">book</span>
+            </td>
+        </tr>
     </table>
     <hr/>
 </div>

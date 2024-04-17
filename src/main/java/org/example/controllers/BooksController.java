@@ -11,7 +11,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.Optional;
 
 @Controller
 @RequestMapping("/books")
@@ -26,8 +25,16 @@ public class BooksController {
     }
 
     @GetMapping()
-    public String index(Model model) {
-        model.addAttribute("books", booksService.findAll());
+    public String index(Model model,
+                        @RequestParam(value = "page", required = false) Integer page,
+                        @RequestParam(value = "books_per_page", required = false) Integer booksPerPage,
+                        @RequestParam(value = "sort_by_year", required = false) boolean sortByYear) {
+
+        if (page == null || booksPerPage == null)
+            model.addAttribute("books", booksService.findAll(sortByYear)); // выдача всех книг
+        else
+            model.addAttribute("books", booksService.findWithPagination(page, booksPerPage, sortByYear));
+
         return "books/index";
     }
 
@@ -51,6 +58,12 @@ public class BooksController {
         return "books/new";
     }
 
+    @GetMapping("/{id}/edit")
+    public String edit(Model model, @PathVariable("id") int id) {
+        model.addAttribute("book", booksService.findOne(id));
+        return "books/edit";
+    }
+
     @PostMapping
     public String create(
             @ModelAttribute("book") @Valid Book book, BindingResult bindingResult) {
@@ -59,12 +72,6 @@ public class BooksController {
 
         booksService.save(book);
         return "redirect:/books";
-    }
-
-    @GetMapping("/{id}/edit")
-    public String edit(Model model, @PathVariable("id") int id) {
-        model.addAttribute("book", booksService.findOne(id));
-        return "books/edit";
     }
 
     @PatchMapping("/{id}")
@@ -98,4 +105,15 @@ public class BooksController {
         return "redirect:/books/" + id;
     }
 
+    @GetMapping("/search")
+    public String searchPage() {
+        return "books/search";
+    }
+
+    @PostMapping("/search")
+    public String makeSearch(Model model,
+                             @RequestParam("query") String query) {
+        model.addAttribute("books", booksService.findByTitle(query));
+        return "books/search";
+    }
 }
